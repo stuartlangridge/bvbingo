@@ -43,6 +43,26 @@ p {
     margin: 12px 0 0 0;
     font-family: sans-serif;
 }
+td.star {
+    background: #444;
+    color: white;
+    position: relative;
+}
+td.star span {
+    font-family: sans-serif;
+    font-size: 10px;
+    color: #777;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+}
+td.star span:nth-of-type(2) {
+    bottom: 4px;
+    right: 4px;
+    text-align: right;
+    top: auto;
+    left: auto;
+}
 </style>
 </head>
 <body>
@@ -55,7 +75,7 @@ var WORDS = [
     'wrong', 'correct', 'scale', 'fail', 'usual', 'smartwatch', 'android', 'os x', 
     'windows', 'iphone', 'ubuntu', 'fedora', 'suse', 'slackware', 'web', 'native', 
     'scopes', 'gnome', 'kde', 'bad', 'voltage', 'segue', 'segment', 'audience',
-    'angeles', 'apple', 'microsoft', 'sausage', 'pie', 'dean', 'pointless',
+    'angeles', 'apple', 'microsoft', 'sausage', 'pie', 'pointless',
     'shower', 'technology', 'live', 'javascript', 'google', 'and\u00A0now...',
     'developer', 'jimmy\u00A0dean'
 ], COLUMNS = 5, ROWS = 5;
@@ -77,6 +97,9 @@ function shuffle(array) {
 
   return array;
 }
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 function makeBingo() {
     var d = document.createElement("div");
     var tbl = document.createElement("table");
@@ -91,20 +114,33 @@ function makeBingo() {
     var counter = 0;
     var cardwords = JSON.parse(JSON.stringify(WORDS));
     shuffle(cardwords);
+    var comcol = getRandomInt(0, COLUMNS-1);
     for (var row=0; row < ROWS; row++) {
         tr = document.createElement("tr");
         for (var col=0; col < COLUMNS; col++) {
             var td = document.createElement("td");
             word = cardwords[counter];
-            if (col == COLUMNS - 1) { word = "community"; }
+            if (col == comcol) { word = "community"; }
+            if (row == 2 && col == 2) {
+                word = "\u2605";
+                td.className = "star";
+                var span1 = document.createElement("span");
+                span1.appendChild(document.createTextNode("FREE"));
+                td.appendChild(span1);
+            }
             td.appendChild(document.createTextNode(word));
+            if (row == 2 && col == 2) {
+                var span2 = document.createElement("span");
+                span2.appendChild(document.createTextNode("SQUARE"));
+                td.appendChild(span2);
+            }
             tr.appendChild(td);
             counter += 1;
         }
         tbl.appendChild(tr);
     }
     d.appendChild(tbl);
-    p.appendChild(document.createTextNode("If you get a line, shout out. If you fill them all, shout out."));
+    p.appendChild(document.createTextNode("If you get a line, shout out. If you fill them all, shout out. Also, community."));
     d.appendChild(p);
     return d;
 }
