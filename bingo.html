@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Live Voltage bingo</title>
+<style>
+table table {
+    border-collapse: collapse;
+}
+body > table > tbody > tr > td {
+    padding: 80px 50px;
+}
+table table td {
+    border: 1px solid #444;
+    background: white;
+    text-align: center;
+    color: black;
+    font-size: 40px;
+    padding: 15px 4px;
+}
+table table {
+    width: 700px;
+    border-radius: 30px;
+}
+table table th, table table td {
+    font-family: "Dirty Ego";
+}
+table table th, div {
+    background: #444;
+    color: white;
+}
+table table th {
+    padding: 5px 0;
+    font-size: 50px;
+    font-weight: normal;
+}
+div {
+    border-radius: 20px;
+    padding: 0 20px 20px 20px;
+}
+p {
+    text-align: center;
+    margin: 12px 0 0 0;
+    font-family: sans-serif;
+}
+</style>
+</head>
+<body>
+<table><tbody><tr><td></td><td></td></tr>
+<tr><td></td><td></td></tr></tbody>
+</table>
+<script>
+var WORDS = [
+    'community', 'linux', 'lies', 'bacon', 'langridge', 'lunduke', 'garcia', 'opinion', 
+    'wrong', 'correct', 'scale', 'fail', 'usual', 'smartwatch', 'android', 'os x', 
+    'windows', 'iphone', 'ubuntu', 'fedora', 'suse', 'slackware', 'web', 'native', 
+    'scopes', 'gnome', 'kde', 'bad', 'voltage', 'segue', 'segment', 'audience',
+    'angeles', 'apple', 'microsoft', 'sausage', 'pie', 'dean', 'pointless',
+
+], COLUMNS = 5, ROWS = 5;
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex ;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+function makeBingo() {
+    var d = document.createElement("div");
+    var tbl = document.createElement("table");
+    var tr = document.createElement("tr");
+    var th = document.createElement("th");
+    var p = document.createElement("p");
+    th.setAttribute("colspan", COLUMNS);
+    th.appendChild(document.createTextNode("BAD VOLTAGE BUZZWORD BINGO"));
+    tr.appendChild(th);
+    tbl.appendChild(tr);
+    var counter = 0;
+    var cardwords = JSON.parse(JSON.stringify(WORDS));
+    shuffle(cardwords);
+    for (var row=0; row < ROWS; row++) {
+        tr = document.createElement("tr");
+        for (var col=0; col < COLUMNS; col++) {
+            var td = document.createElement("td");
+            td.appendChild(document.createTextNode(cardwords[counter]));
+            tr.appendChild(td);
+            counter += 1;
+        }
+        tbl.appendChild(tr);
+    }
+    d.appendChild(tbl);
+    p.appendChild(document.createTextNode("If you get a line, shout out. If you fill them all, shout out."));
+    d.appendChild(p);
+    return d;
+}
+Array.prototype.slice.call(document.querySelectorAll("td")).forEach(function(td) { td.appendChild(makeBingo()); });
+</script>
+</body>
+</html>
