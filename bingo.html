@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf8">
 <title>Live Voltage bingo</title>
 <style>
 table table {
@@ -50,12 +51,13 @@ p {
 </table>
 <script>
 var WORDS = [
-    'community', 'linux', 'lies', 'bacon', 'langridge', 'lunduke', 'garcia', 'opinion', 
+    'linux', 'lies', 'bacon', 'langridge', 'lunduke', 'garcia', 'opinion', 
     'wrong', 'correct', 'scale', 'fail', 'usual', 'smartwatch', 'android', 'os x', 
     'windows', 'iphone', 'ubuntu', 'fedora', 'suse', 'slackware', 'web', 'native', 
     'scopes', 'gnome', 'kde', 'bad', 'voltage', 'segue', 'segment', 'audience',
     'angeles', 'apple', 'microsoft', 'sausage', 'pie', 'dean', 'pointless',
-
+    'shower', 'technology', 'live', 'javascript', 'google', 'and\u00A0now...',
+    'developer', 'jimmy\u00A0dean'
 ], COLUMNS = 5, ROWS = 5;
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex ;
@@ -81,6 +83,7 @@ function makeBingo() {
     var tr = document.createElement("tr");
     var th = document.createElement("th");
     var p = document.createElement("p");
+    var word;
     th.setAttribute("colspan", COLUMNS);
     th.appendChild(document.createTextNode("BAD VOLTAGE BUZZWORD BINGO"));
     tr.appendChild(th);
@@ -92,7 +95,9 @@ function makeBingo() {
         tr = document.createElement("tr");
         for (var col=0; col < COLUMNS; col++) {
             var td = document.createElement("td");
-            td.appendChild(document.createTextNode(cardwords[counter]));
+            word = cardwords[counter];
+            if (col == COLUMNS - 1) { word = "community"; }
+            td.appendChild(document.createTextNode(word));
             tr.appendChild(td);
             counter += 1;
         }
